@@ -15,7 +15,7 @@ WORKDIR /app
 COPY . .
 
 # Build the app
-RUN ./gradlew build --no-daemon
+RUN gradle bootJar --no-daemon
 
 # -------- Stage 2: Run with Java 21 --------
 FROM eclipse-temurin:21-jdk-jammy
