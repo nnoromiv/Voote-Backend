@@ -1,17 +1,22 @@
-# Use a lightweight OpenJDK image
+# ---------- Stage 1: Build the app ----------
+FROM gradle:8.5-jdk17 AS build
+
+# Copy everything to the build container
+COPY --chown=gradle:gradle . /home/gradle/project
+
+WORKDIR /home/gradle/project
+
+# Build the application (bootJar)
+RUN gradle bootJar --no-daemon
+
+# ---------- Stage 2: Run the app ----------
 FROM openjdk:17-jdk-slim
 
-# Optional: Set environment variables
-ENV JAVA_OPTS=""
+# Copy the built jar from the previous stage
+COPY --from=build /home/gradle/project/build/libs/*.jar app.jar
 
-# Create a folder for the app
-WORKDIR /app
-
-# Copy the compiled jar file into the container
-COPY build/libs/*.jar app.jar
-
-# Expose port (8080 is default for Spring Boot)
+# Set port
 EXPOSE 8080
 
-# Run the app
-ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar app.jar"]
+# Run the application
+ENTRYPOINT ["java", "-jar", "app.jar"]
