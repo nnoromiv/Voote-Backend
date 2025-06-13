@@ -14,7 +14,8 @@ class FirebaseConfig() {
     fun initialize() {
         val inputStream = javaClass.classLoader.getResourceAsStream("firebase-admin-sdk.json")
 
-        val serviceAccount = FileInputStream("src/main/resources/firebase-admin-sdk.json")
+//        val serviceAccount = FileInputStream("src/main/resources/firebase-admin-sdk.json")
+        val serviceAccount = FileInputStream("/secrets/firebase-admin-sdk.json")
 
         val options = FirebaseOptions.builder()
             .setCredentials(GoogleCredentials.fromStream(serviceAccount))

@@ -3,6 +3,7 @@ package com.example.voote.controller
 import com.example.voote.dto.SignUpRequest
 import com.example.voote.service.AuthService
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
@@ -18,7 +19,7 @@ class AuthController(
         return "Login successful"
     }
 
-    @GetMapping("/signup")
+    @PostMapping("/signup")
     fun signup(@RequestBody request: SignUpRequest): Map<String, Any> {
         val response = authService.signup(request)
 
